@@ -14,4 +14,7 @@ Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 Route::get('/users', [App\Http\Controllers\HomeController::class, 'users'])->name('users');
-Route::delete('/users/{id}', [App\Http\Controllers\HomeController::class, 'destroy'])->name('users.destroy');
+Route::get('/users/{id}', [App\Http\Controllers\HomeController::class, 'destroya'])
+->name('users.destroya');
+Route::delete('/users/{id}', [App\Http\Controllers\HomeController::class, 'destroyb'])
+->name('users.destroyb');
