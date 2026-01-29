@@ -5,9 +5,68 @@
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
+
+
+                 <a href="" class="btn btn-primary" 
+                 data-bs-toggle="modal" data-bs-target="#myModal">
+                                    Create User</a>
+
+                                    <!-- The Modal -->
+<div class="modal" id="myModal">
+  <div class="modal-dialog">
+    <div class="modal-content">
+
+      <!-- Modal Header -->
+      <div class="modal-header">
+        <h4 class="modal-title">Modal Heading</h4>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+
+      <!-- Modal body -->
+      <div class="modal-body">
+        
+        
+        <form action="" method="post">
+        @csrf
+        <div class="mb-3 mt-3">
+            <label for="email" class="form-label">Name :</label>
+            <input type="email" class="form-control" id="email" placeholder="Enter email" name="email">
+        </div>
+
+
+        <div class="mb-3 mt-3">
+            <label for="email" class="form-label">Email:</label>
+            <input type="email" class="form-control" id="email" placeholder="Enter email" name="email">
+        </div>
+        <div class="mb-3">
+            <label for="pwd" class="form-label">Password:</label>
+            <input type="password" class="form-control" id="pwd" placeholder="Enter password" name="pswd">
+        </div>
+       
+        
+        
+        <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+
+
+
+      </div>
+
+      <!-- Modal footer -->
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+
                 <div class="card-header">Senarai User</div>
 
                 <div class="card-body">
+
+                    
                     
                     
                     <table class="table table-bordered">
