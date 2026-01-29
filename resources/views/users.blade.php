@@ -20,14 +20,18 @@
                         </thead>
                         <tbody>
                         @foreach($users as $user) 
+                        @php
+                            $encryptid=encrypt($user->id);
+                        @endphp
                         <tr>
                             
                             <td>{{$user->name}}</td>
                             <td>{{$user->email}}</td>
                             <td>
                                 <button type="button" class="btn btn-primary">Edit</button>
-                                <a href="{{ route('users.destroya', $user->id) }}" class="btn btn-primary">Delete A</a>
-                                <form action="{{ route('users.destroyb', $user->id) }}" method="POST" 
+                                <a href="{{ route('users.destroya',$encryptid) }}" class="btn btn-primary">
+                                    Delete A</a>
+                                <form action="{{ route('users.destroyb', $encryptid) }}" method="POST" 
                                     onsubmit="return confirm('Anda pasti mahu padam data ini?')">
                                     @csrf
                                     @method('DELETE')

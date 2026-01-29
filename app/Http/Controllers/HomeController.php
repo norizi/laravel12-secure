@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\User;
+use Illuminate\Support\Facades\Crypt;
 
 class HomeController extends Controller
 {
@@ -23,8 +24,9 @@ class HomeController extends Controller
         return view('users', compact('users'));
     }
 
-    public function destroy($id)
+    public function destroy($encryptid)
     {
+        $id = decrypt($encryptid);
         User::findOrFail($id)->delete();
 
         return redirect()->back()->with('success', 'Data berjaya dipadam');
