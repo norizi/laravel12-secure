@@ -18,3 +18,5 @@ Route::get('/users/{id}', [App\Http\Controllers\HomeController::class, 'destroya
 ->name('users.destroya');
 Route::delete('/users/{id}', [App\Http\Controllers\HomeController::class, 'destroyb'])
 ->name('users.destroyb');
+Route::post('/users/store', [App\Http\Controllers\HomeController::class, 'store'])
+->name('users.store');
