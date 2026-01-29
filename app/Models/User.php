@@ -11,7 +11,7 @@ use App\Traits\Auditable; // Import the trait
 class User extends Authenticatable
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
-    use HasFactory, Notifiable, Auditable; // Add the trait here;
+    use HasFactory, Notifiable, Auditable; // Add the trait here
 
     /**
      * The attributes that are mass assignable.

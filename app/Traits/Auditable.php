@@ -2,18 +2,19 @@
 
 namespace App\Traits;
 
-use App\Models\Audit;
+use App\Models\AuditLog;
 use Illuminate\Support\Facades\Auth;
 
 trait Auditable
 {
-    /**
-     * Boot the trait.
-     * Laravel automatically calls boot{TraitName} on model boot.
-     */
     public static function bootAuditable()
     {
         static::created(function ($model) {
+            // 1. Jika tiada sesiapa login (Guest Register), jangan rekod audit
+            if (!Auth::check()) {
+                return;
+            }
+            
             $model->recordAudit('created');
         });
 
@@ -26,48 +27,44 @@ trait Auditable
         });
     }
 
-    /**
-     * Record the audit entry.
-     *
-     * @param string $event
-     * @return void
-     */
     protected function recordAudit($event)
     {
         $oldValues = [];
         $newValues = [];
 
         if ($event === 'updated') {
-            // Get changed attributes
             $changes = $this->getDirty();
-            
-            // Get original values for those changed attributes
             foreach ($changes as $key => $value) {
+                // Ignore timestamp columns to keep logs clean
+                if (in_array($key, ['updated_at', 'created_at'])) continue;
+                
                 $oldValues[$key] = $this->getOriginal($key);
                 $newValues[$key] = $value;
             }
+            
+            // If no actual relevant data changed, don't log
+            if (empty($newValues)) return;
+
         } elseif ($event === 'created') {
             $newValues = $this->getAttributes();
+            // Optional: Remove sensitive fields or timestamps from log
+            unset($newValues['password'], $newValues['remember_token']);
+            
         } elseif ($event === 'deleted') {
             $oldValues = $this->getAttributes();
         }
 
-        // Create the audit record relationship
+        // The AuditLog model's $casts property will handle the array-to-string conversion
         $this->audits()->create([
-            'user_id'    => Auth::id(), // Records who did the action
+            'user_id'    => Auth::id() ?? '',
             'event'      => $event,
-            'old_values' => !empty($oldValues) ? json_encode($oldValues) : null,
-            'new_values' => !empty($newValues) ? json_encode($newValues) : null,
-           // 'ip_address' => request()->ip(),
-            //'user_agent' => request()->userAgent(),
+            'old_values' => !empty($oldValues) ? $oldValues : null,
+            'new_values' => !empty($newValues) ? $newValues : null,
         ]);
     }
 
-    /**
-     * Polymorphic relationship to audits.
-     */
     public function audits()
     {
-        return $this->morphMany(Audit::class, 'auditable');
+        return $this->morphMany(AuditLog::class, 'auditable');
     }
 }
