@@ -11,7 +11,7 @@
                  data-bs-toggle="modal" data-bs-target="#myModal">
                                     Create User</a>
 
-                                    <!-- The Modal -->
+<!-- The Modal -->
 <div class="modal" id="myModal">
   <div class="modal-dialog">
     <div class="modal-content">
@@ -90,7 +90,9 @@
                             <td>{{$user->name}}</td>
                             <td>{{$user->email}}</td>
                             <td>
-                                <button type="button" class="btn btn-primary">Edit</button>
+                                <button type="button" class="btn btn-primary"
+                                data-bs-target="#myModal{{$user->id}}" data-bs-toggle="modal">
+                                    Edit</button>
                                 <a href="{{ route('users.destroya',$encryptid) }}" class="btn btn-primary">
                                     Delete A</a>
                                 <form action="{{ route('users.destroyb', $encryptid) }}" method="POST" 
@@ -104,6 +106,58 @@
                                 </form>
                             </td>
                         </tr>
+
+
+                        <!-- The Modal -->
+<div class="modal" id="myModal{{$user->id}}">
+  <div class="modal-dialog">
+    <div class="modal-content">
+
+      <!-- Modal Header -->
+      <div class="modal-header">
+        <h4 class="modal-title">Kemaskini ID User:{{$user->id}}</h4>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+
+      <!-- Modal body -->
+      <div class="modal-body">
+        
+        
+        <form action="{{route('users.update')}}" method="post">
+        @csrf
+        <div class="mb-3 mt-3">
+            <label for="email" class="form-label">Name :</label>
+            <input type="text" class="form-control" 
+            name="name" value="{{$user->name}}">
+        </div>
+
+
+        <div class="mb-3 mt-3">
+            <label for="email" class="form-label">Email:</label>
+            <input type="email" class="form-control" 
+            name="email" value="{{$user->email}}">
+        </div>
+        
+       
+        <input type="hidden" name="id" value="{{$user->id}}">
+
+        <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+
+
+
+      </div>
+
+      <!-- Modal footer -->
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+
                         @endforeach
                         </tbody>
                     </table>

@@ -79,4 +79,36 @@ class HomeController extends Controller
          
         return redirect()->back()->with('success', 'Data berjaya dipadam');
     }
+
+
+    public function update(Request $request)
+    {
+
+        // 1. Validasi data yang diterima
+            $request->validate([
+                'name' => 'required|string|max:255',
+                'email' => 'required|string|email|max:255',
+            ]); 
+            /*
+            // 2. Kemaskini data ke dalam table users
+            User::where('id', $request->id)->update([
+                'name' => $request->name,
+                'email' => $request->email,         
+            ]);
+
+            */
+
+            // 2. Cari Model User dahulu (PENTING)
+            // Gunakan findOrFail supaya keluar error 404 jika id tiada
+            $user = User::findOrFail($request->id); 
+
+            // 3. Kemaskini menggunakan instance model
+            // Cara ini akan trigger event 'updated' dan Trait Auditable akan berfungsi
+            $user->update([
+                'name' => $request->name,
+                'email' => $request->email,        
+            ]);
+
+        return redirect()->back()->with('success', 'Data berjaya dikemaskini'); 
+    }   
 }

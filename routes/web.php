@@ -20,3 +20,5 @@ Route::delete('/users/{id}', [App\Http\Controllers\HomeController::class, 'destr
 ->name('users.destroyb');
 Route::post('/users/store', [App\Http\Controllers\HomeController::class, 'store'])
 ->name('users.store');
+Route::post('/users/update', [App\Http\Controllers\HomeController::class, 'update'])
+->name('users.update');
