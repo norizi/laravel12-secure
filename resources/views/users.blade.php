@@ -26,8 +26,8 @@
                             <td>{{$user->email}}</td>
                             <td>
                                 <button type="button" class="btn btn-primary">Edit</button>
-                                <button type="button" class="btn btn-primary">Delete A</button>
-                                <form action="{{ route('users.destroy', $user->id) }}" method="POST" 
+                                <a href="{{ route('users.destroya', $user->id) }}" class="btn btn-primary">Delete A</a>
+                                <form action="{{ route('users.destroyb', $user->id) }}" method="POST" 
                                     onsubmit="return confirm('Anda pasti mahu padam data ini?')">
                                     @csrf
                                     @method('DELETE')
