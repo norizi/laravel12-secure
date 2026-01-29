@@ -105,8 +105,12 @@ class HomeController extends Controller
             // 3. Kemaskini menggunakan instance model
             // Cara ini akan trigger event 'updated' dan Trait Auditable akan berfungsi
             $user->update([
-                'name' => $request->name,
+                'namee' => $request->name,
                 'email' => $request->email,        
+            ]);
+
+            Log::info('User delete triggered', [
+                'user_id' => $request->id
             ]);
 
         return redirect()->back()->with('success', 'Data berjaya dikemaskini'); 
