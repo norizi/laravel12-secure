@@ -24,7 +24,17 @@ class HomeController extends Controller
         return view('users', compact('users'));
     }
 
-    public function destroy($encryptid)
+     
+
+    public function destroyb($encryptid)
+    {
+        $id = decrypt($encryptid);
+        User::findOrFail($id)->delete();
+
+        return redirect()->back()->with('success', 'Data berjaya dipadam');
+    }
+
+    public function destroya($encryptid)
     {
         $id = decrypt($encryptid);
         User::findOrFail($id)->delete();
