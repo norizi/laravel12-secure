@@ -7,6 +7,7 @@ use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Validation\Rules\Password;
+use Illuminate\Support\Facades\Cache;
 
 class HomeController extends Controller
 {
@@ -17,12 +18,20 @@ class HomeController extends Controller
     } 
     public function index()
     {
-        return view('home');
+        $html = Cache::remember('home_html', 300, function () {
+        return view('home')->render();
+        });
+
+        return response($html);
     }
 
     public function users()
     {
-        $users = User::all();
+        //$users = User::all();
+        $users = Cache::remember('users_list', 60, function () {
+            return User::all();
+        });
+
         return view('users', compact('users'));
     }
 
